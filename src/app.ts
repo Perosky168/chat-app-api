@@ -4,7 +4,7 @@ import databaseConnention from './setupDatabase';
 import { config } from './config';
 
 class Application {
-  public start(): void{
+  public start(): void {
     this.loadConfig();
     databaseConnention();
     const app: Express = express();
@@ -14,6 +14,7 @@ class Application {
 
   private loadConfig(): void {
     config.validateConfig();
+    config.cloudinaryConfig();
   }
 }
 
