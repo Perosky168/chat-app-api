@@ -4,7 +4,7 @@
     "module": "commonjs",
     "lib": ["DOM", "ES2016"],
     "baseUrl": ".",
-    "outDir": "./build",
+    "outDir": "./dist",
     "rootDir": "src",
     "strict": true,
     "noImplicitAny": true,
