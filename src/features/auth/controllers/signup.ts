@@ -9,6 +9,10 @@ import { authService } from 'src/shared/services/db/auth.service';
 import { BadRequestError } from 'src/shared/globals/helpers/error-handler';
 import { Helpers } from 'src/shared/globals/helpers/helpers';
 import { uploads } from 'src/shared/globals/helpers/cloudinary-upload';
+import { IUserDocument } from 'src/features/user/interfaces/user.interface';
+import { UserCache } from 'src/shared/services/redis/user.cache';
+
+const userCache: UserCache = new UserCache();
 
 export class SignUp {
   @joiValidation(signupSchema)
@@ -42,6 +46,14 @@ export class SignUp {
       throw new BadRequestError('unable to upload: Error occured Try again');
     }
 
+    // Add to redis cache
+    const userDataForCache: IUserDocument = SignUp.prototype.userData(
+      authData,
+      userObjectId
+    );
+    userDataForCache.profilePicture = `https://res/cloudinary.com/db3ky88u4/image/upload/v${result.version}/${userObjectId}`;
+    await userCache.saveUserToCache(`${userObjectId}`, uId, userDataForCache);
+
     res
       .status(HTTP_STATUS.CREATED)
       .json({ message: 'User created successfully', authData });
@@ -58,5 +70,42 @@ export class SignUp {
       avatarColor,
       createdAt: new Date(),
     } as IAuthDocument;
+  }
+
+  private userData(data: IAuthDocument, userObjectId: ObjectId): IUserDocument {
+    const { _id, username, email, uId, password, avatarColor } = data;
+    return {
+      _id: userObjectId,
+      authId: _id,
+      uId,
+      username: Helpers.firstLetterUppercase(username),
+      email,
+      password,
+      avatarColor,
+      profilePicture: '',
+      blocked: [],
+      blockedBy: [],
+      work: '',
+      location: '',
+      school: '',
+      quote: '',
+      bgImageVersion: '',
+      bgImageId: '',
+      followersCount: 0,
+      followingCount: 0,
+      postsCount: 0,
+      notifications: {
+        messages: true,
+        reactions: true,
+        comments: true,
+        follows: true,
+      },
+      social: {
+        facebook: '',
+        instagram: '',
+        twitter: '',
+        youtube: '',
+      },
+    } as unknown as IUserDocument;
   }
 }
