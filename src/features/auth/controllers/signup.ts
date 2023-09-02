@@ -11,12 +11,17 @@ import { Helpers } from 'src/shared/globals/helpers/helpers';
 import { uploads } from 'src/shared/globals/helpers/cloudinary-upload';
 import { IUserDocument } from 'src/features/user/interfaces/user.interface';
 import { UserCache } from 'src/shared/services/redis/user.cache';
+import { omit } from 'lodash';
+import JWT from 'jsonwebtoken';
+import { authQueue } from 'src/shared/services/queues/auth.queue';
+import { userQueue } from 'src/shared/services/queues/user.queue';
+import { config } from 'src/config';
 
 const userCache: UserCache = new UserCache();
 
 export class SignUp {
   @joiValidation(signupSchema)
-  public async create(req: Request, res: Response) {
+  public async create(req: Request, res: Response): Promise<void> {
     const { username, email, password, avatarColor, avatarImage } = req.body;
     const checkIfUserExist: IAuthDocument =
       await authService.getUserByUsernameOrEmail(username, email);
@@ -43,7 +48,7 @@ export class SignUp {
       true
     )) as UploadApiResponse;
     if (!result?.public_id) {
-      throw new BadRequestError('unable to upload: Error occured Try again');
+      throw new BadRequestError('File upload: Error occurred. Try again.');
     }
 
     // Add to redis cache
@@ -51,12 +56,33 @@ export class SignUp {
       authData,
       userObjectId
     );
-    userDataForCache.profilePicture = `https://res/cloudinary.com/db3ky88u4/image/upload/v${result.version}/${userObjectId}`;
+    userDataForCache.profilePicture = `https://res.cloudinary.com/db3ky88u4/image/upload/v${result.version}/${userObjectId}`;
     await userCache.saveUserToCache(`${userObjectId}`, uId, userDataForCache);
 
-    res
-      .status(HTTP_STATUS.CREATED)
-      .json({ message: 'User created successfully', authData });
+    // Add to database
+    authQueue.addAuthUserJob('addAuthUserToDB', { value: authData });
+    userQueue.addUserJob('addUserToDB', { value: userDataForCache });
+
+    const userJwt: string = SignUp.prototype.signToken(authData, userObjectId);
+    req.session = { jwt: userJwt };
+    res.status(HTTP_STATUS.CREATED).json({
+      message: 'User created successfully',
+      user: userDataForCache,
+      token: userJwt,
+    });
+  }
+
+  private signToken(data: IAuthDocument, userObjectId: ObjectId): string {
+    return JWT.sign(
+      {
+        userId: userObjectId,
+        uId: data.uId,
+        email: data.email,
+        username: data.username,
+        avatarColor: data.avatarColor,
+      },
+      config.JWT_TOKEN!
+    );
   }
 
   private signupData(data: ISignUpData): IAuthDocument {
