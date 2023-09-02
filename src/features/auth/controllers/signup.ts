@@ -21,7 +21,7 @@ const userCache: UserCache = new UserCache();
 
 export class SignUp {
   @joiValidation(signupSchema)
-  public async create(req: Request, res: Response) {
+  public async create(req: Request, res: Response): Promise<void> {
     const { username, email, password, avatarColor, avatarImage } = req.body;
     const checkIfUserExist: IAuthDocument =
       await authService.getUserByUsernameOrEmail(username, email);
@@ -48,7 +48,7 @@ export class SignUp {
       true
     )) as UploadApiResponse;
     if (!result?.public_id) {
-      throw new BadRequestError('unable to upload: Error occured Try again');
+      throw new BadRequestError('File upload: Error occurred. Try again.');
     }
 
     // Add to redis cache
@@ -56,26 +56,15 @@ export class SignUp {
       authData,
       userObjectId
     );
-    userDataForCache.profilePicture = `https://res/cloudinary.com/db3ky88u4/image/upload/v${result.version}/${userObjectId}`;
+    userDataForCache.profilePicture = `https://res.cloudinary.com/db3ky88u4/image/upload/v${result.version}/${userObjectId}`;
     await userCache.saveUserToCache(`${userObjectId}`, uId, userDataForCache);
 
     // Add to database
-    omit(userDataForCache, [
-      'uId',
-      'username',
-      'email',
-      'avatarColor',
-      'password',
-    ]);
-    authQueue.addAuthUserJob('addAuthUserToDB', { value: userDataForCache });
+    authQueue.addAuthUserJob('addAuthUserToDB', { value: authData });
     userQueue.addUserJob('addUserToDB', { value: userDataForCache });
 
-    const userJwt: string = SignUp.prototype.signUpToken(
-      authData,
-      userObjectId
-    );
-    req.session = { Jwt: userJwt };
-
+    const userJwt: string = SignUp.prototype.signToken(authData, userObjectId);
+    req.session = { jwt: userJwt };
     res.status(HTTP_STATUS.CREATED).json({
       message: 'User created successfully',
       user: userDataForCache,
@@ -83,7 +72,7 @@ export class SignUp {
     });
   }
 
-  private signUpToken(data: IAuthDocument, userObjectId: ObjectId): string {
+  private signToken(data: IAuthDocument, userObjectId: ObjectId): string {
     return JWT.sign(
       {
         userId: userObjectId,
