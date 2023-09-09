@@ -88,7 +88,7 @@ export class ChatAppServer {
         res: Response,
         next: NextFunction
       ) => {
-        console.log(error);
+        log.error(error);
         if (error instanceof CustomError) {
           return res.status(error.statusCode).json(error.serializeErrors());
         }

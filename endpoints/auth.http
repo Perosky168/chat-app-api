@@ -1,6 +1,27 @@
 @baseUrl = http://localhost:8000
 @urlPath = api/v1
 
+###
+POST {{baseUrl}}/{{urlPath}}/forgot-password
+Content-Type: application/json
+Accept: application/json
+withCredentials: true
+
+{
+  "email": "test5@gmail.com"
+}
+
+###
+POST {{baseUrl}}/{{urlPath}}/reset-password/50dc2cfb5c83cadd726b472500cbbba033072907
+Content-Type: application/json
+Accept: application/json
+withCredentials: true
+
+{
+  "password": "newtest",
+  "confirmPassword": "newtest"
+}
+
 
 ###
 GET  {{baseUrl}}/{{urlPath}}/currentuser
@@ -26,7 +47,7 @@ withCredentials: true
 
 {
   "username": "test5",
-  "password": "test123"
+  "password": "newtest"
 }
 
 ###
