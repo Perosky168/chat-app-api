@@ -9,12 +9,12 @@ import { config } from 'src/config';
 import { IAuthDocument } from '../interfaces/auth.interface';
 import { IUserDocument } from 'src/features/user/interfaces/user.interface';
 import { userService } from 'src/shared/services/db/user.service';
+import { mailTransport } from 'src/shared/services/emails/mail_transport';
 
-export class signIn {
+export class SignIn {
   @joiValidation(loginSchema)
   public async read(req: Request, res: Response): Promise<void> {
     const { username, password } = req.body;
-    console.log(username, password);
     const existingUser: IAuthDocument = await authService.getUserByUsername(
       username
     );
@@ -43,6 +43,7 @@ export class signIn {
       },
       config.JWT_TOKEN!
     );
+
     req.session = { jwt: userJwt };
     const userDocument: IUserDocument = {
       ...user,
