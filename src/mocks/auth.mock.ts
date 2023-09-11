@@ -1,21 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-empty-function */
 import { Response } from 'express';
-import {
-  AuthPayload,
-  IAuthDocument,
-} from 'src/features/auth/interfaces/auth.interface';
+import { AuthPayload, IAuthDocument } from '@auth/interfaces/auth.interface';
 
-export const authMockRequest = (
-  sessionData: IJWT,
-  body: IAuthMock,
-  currentUser?: AuthPayload | null,
-  params?: any
-) => ({
+export const authMockRequest = (sessionData: IJWT, body: IAuthMock, currentUser?: AuthPayload | null, params?: any) => ({
   session: sessionData,
   body,
   params,
-  currentUser,
+  currentUser
 });
 
 export const authMockResponse = (): Response => {
@@ -38,21 +30,7 @@ export interface IAuthMock {
   avatarColor?: string;
   avatarImage?: string;
   createdAt?: Date | string;
-  currentPassword?: string;
-  newPassword?: string;
   confirmPassword?: string;
-  quote?: string;
-  work?: string;
-  school?: string;
-  location?: string;
-  facebook?: string;
-  instagram?: string;
-  twitter?: string;
-  youtube?: string;
-  messages?: boolean;
-  reactions?: boolean;
-  comments?: boolean;
-  follows?: boolean;
 }
 
 export const authUserPayload: AuthPayload = {
@@ -61,7 +39,7 @@ export const authUserPayload: AuthPayload = {
   username: 'Manny',
   email: 'manny@me.com',
   avatarColor: '#9c27b0',
-  iat: 12345,
+  iat: 12345
 };
 
 export const authMock = {
@@ -70,7 +48,33 @@ export const authMock = {
   username: 'Manny',
   email: 'manny@me.com',
   avatarColor: '#9c27b0',
-  createdAt: '2022-08-31T07:42:24.451Z',
-  save: () => {},
-  comparePassword: () => false,
+  createdAt: new Date(),
+  save: () => {}
 } as unknown as IAuthDocument;
+
+export const signUpMockData = {
+  _id: '605727cd646eb50e668a4e13',
+  uId: '92241616324557172',
+  username: 'Manny',
+  email: 'manny@test.com',
+  avatarColor: '#ff9800',
+  password: 'manny1',
+  birthDay: { month: '', day: '' },
+  postCount: 0,
+  gender: '',
+  quotes: '',
+  about: '',
+  relationship: '',
+  blocked: [],
+  blockedBy: [],
+  bgImageVersion: '',
+  bgImageId: '',
+  work: [],
+  school: [],
+  placesLived: [],
+  createdAt: new Date(),
+  followersCount: 0,
+  followingCount: 0,
+  notifications: { messages: true, reactions: true, comments: true, follows: true },
+  profilePicture: 'https://res.cloudinary.com/ratingapp/image/upload/605727cd646eb50e668a4e13'
+};

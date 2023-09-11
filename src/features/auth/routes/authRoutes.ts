@@ -1,11 +1,12 @@
+import { Password } from '@auth/controllers/password';
+import { SignIn } from '@auth/controllers/signin';
+import { SignOut } from '@auth/controllers/signout';
+import { SignUp } from '@auth/controllers/signup';
 import express, { Router } from 'express';
-import { SignUp } from '../controllers/signup';
-import { SignIn } from '../controllers/signin';
-import { SignOut } from '../controllers/signout';
-import { Password } from '../controllers/password';
 
 class AuthRoutes {
   private router: Router;
+
   constructor() {
     this.router = express.Router();
   }
@@ -19,7 +20,7 @@ class AuthRoutes {
     return this.router;
   }
 
-  public signoutRoutes(): Router {
+  public signoutRoute(): Router {
     this.router.get('/signout', SignOut.prototype.update);
 
     return this.router;
