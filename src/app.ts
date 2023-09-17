@@ -1,14 +1,14 @@
 import express, { Express } from 'express';
-import { ChatAppServer } from './setupServer';
-import databaseConnention from './setupDatabase';
-import { config } from './config';
+import { ChattyServer } from '@root/setupServer';
+import databaseConnection from '@root/setupDatabase';
+import { config } from '@root/config';
 
 class Application {
-  public start(): void {
+  public initialize(): void {
     this.loadConfig();
-    databaseConnention();
+    databaseConnection();
     const app: Express = express();
-    const server: ChatAppServer = new ChatAppServer(app);
+    const server: ChattyServer = new ChattyServer(app);
     server.start();
   }
 
@@ -19,4 +19,4 @@ class Application {
 }
 
 const application: Application = new Application();
-application.start();
+application.initialize();
