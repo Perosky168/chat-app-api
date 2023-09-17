@@ -41,7 +41,6 @@ describe('Create', () => {
       jest.spyOn(postQueue, 'addPostJob');
 
       await Create.prototype.post(req, res);
-      console.log(spy.mock.calls);
       const createdPost = spy.mock.calls[0][0].createdPost;
       expect(postServer.socketIOPostObject.emit).toHaveBeenCalledWith('add post', createdPost);
       expect(PostCache.prototype.savePostToCache).toHaveBeenCalledWith({
