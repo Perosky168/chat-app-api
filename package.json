@@ -10,6 +10,7 @@
     "prettier:check": "prettier --check 'src/**/*.{ts,json}'",
     "prettier:fix": "prettier --write 'src/**/*.{ts,json}'",
     "test": "jest --coverage=true -w=1 --forceExit --detectOpenHandles --watchAll=true",
+    "seeds:dev": "npx ts-node src/seed.ts",
     "build": "ttsc -p ."
   },
   "keywords": [],
@@ -25,6 +26,7 @@
     "bcryptjs": "^2.4.3",
     "bull": "^4.8.5",
     "bunyan": "^1.8.15",
+    "canvas": "^2.11.2",
     "cloudinary": "^1.30.1",
     "compression": "^1.7.4",
     "cookie-session": "^2.0.0",
@@ -50,6 +52,7 @@
     "typescript-transform-paths": "^3.3.1"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.1.0",
     "@types/bcryptjs": "^2.4.2",
     "@types/bull": "^3.15.9",
     "@types/bunyan": "^1.8.8",

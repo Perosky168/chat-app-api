@@ -20,7 +20,7 @@ Accept: application/json
 withCredentials: true
 
 {
-  "post": "This is my forth post2",
+  "post": "This is my fisrt post today",
   "bgColor": "#ffffff",
   "privacy": "Public",
   "gifUrl": "",
@@ -35,7 +35,7 @@ Accept: application/json
 withCredentials: true
 
 {
-  "post": "Post with image created2",
+  "post": "Post with image created today",
   "bgColor": "#4aa1f3",
   "privacy": "Public",
   "gifUrl": "",
