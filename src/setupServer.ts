@@ -9,6 +9,7 @@ import HTTP_STATUS from 'http-status-codes';
 import { Server } from 'socket.io';
 import { createClient } from 'redis';
 import { createAdapter } from '@socket.io/redis-adapter';
+// import apiStats from 'swagger-stats';
 import Logger from 'bunyan';
 import 'express-async-errors';
 import { config } from '@root/config';
@@ -69,6 +70,14 @@ export class ChattyServer {
   private routesMiddleware(app: Application): void {
     applicationRoutes(app);
   }
+
+  // private apiMonitoring(app: Application): void {
+  //   app.use(
+  //     apiStats.getMiddleware({
+  //       uripath: '/swagger-monitoring'
+  //     })
+  //   );
+  // }
 
   private globalErrorHandler(app: Application): void {
     app.all('*', (req: Request, res: Response) => {
