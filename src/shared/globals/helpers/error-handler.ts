@@ -2,15 +2,15 @@ import HTTP_STATUS from 'http-status-codes';
 
 export interface IErrorResponse {
   message: string;
-  statuscode: number;
+  statusCode: number;
   status: string;
   serializeErrors(): IError;
 }
 
 export interface IError {
-  message: String;
+  message: string;
   statusCode: number;
-  status: String;
+  status: string;
 }
 
 export abstract class CustomError extends Error {
@@ -19,14 +19,13 @@ export abstract class CustomError extends Error {
 
   constructor(message: string) {
     super(message);
-
-    Object.setPrototypeOf(this, CustomError.prototype);
   }
+
   serializeErrors(): IError {
     return {
       message: this.message,
       status: this.status,
-      statusCode: this.statusCode,
+      statusCode: this.statusCode
     };
   }
 }
@@ -57,6 +56,7 @@ export class NotFoundError extends CustomError {
     super(message);
   }
 }
+
 export class NotAuthorizedError extends CustomError {
   statusCode = HTTP_STATUS.UNAUTHORIZED;
   status = 'error';
