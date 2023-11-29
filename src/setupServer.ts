@@ -71,14 +71,6 @@ export class ChattyServer {
     applicationRoutes(app);
   }
 
-  // private apiMonitoring(app: Application): void {
-  //   app.use(
-  //     apiStats.getMiddleware({
-  //       uripath: '/swagger-monitoring'
-  //     })
-  //   );
-  // }
-
   private globalErrorHandler(app: Application): void {
     app.all('*', (req: Request, res: Response) => {
       res.status(HTTP_STATUS.NOT_FOUND).json({ message: `${req.originalUrl} not found` });
