@@ -1,8 +1,8 @@
 # ChatApp Backend
 
-|                                                                                                                   |                                                                                                                                                |                                                                                                                           |                                                                                                                            |
-| :---------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------: |
-| ![First Image](https://res.cloudinary.com/dyamr9ym3/image/upload/v1662482458/github_readme_images/aws_bxdmec.png) | ![Second Image](https://res.cloudinary.com/dyamr9ym3/image/upload/v1662482319/github_readme_images/Terraform_PrimaryLogo_Color_RGB_gcbknj.png) | ![Third Image](https://res.cloudinary.com/dyamr9ym3/image/upload/v1662482279/github_readme_images/nodejs-logo_hqxxed.svg) | ![Fourth Image](https://res.cloudinary.com/dyamr9ym3/image/upload/v1662482298/github_readme_images/ts-logo-512_jt9rmi.png) |
+|                                                                                                                           |                                                                                                                            |     |     |
+| :-----------------------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------: | :-: | :-: |
+| ![Third Image](https://res.cloudinary.com/dyamr9ym3/image/upload/v1662482279/github_readme_images/nodejs-logo_hqxxed.svg) | ![Fourth Image](https://res.cloudinary.com/dyamr9ym3/image/upload/v1662482298/github_readme_images/ts-logo-512_jt9rmi.png) |
 
 |                                                                                                                          |                                                                                                                                      |                                                                                                                   |                                                                                                                         |
 | :----------------------------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------------------: |
@@ -89,7 +89,7 @@ Make sure mongodb and redis are both running on your local machine.
 
 ## API Endpoints
 
-- The actual endpoints for the application can be found inside the folder named `endpoints` [https://github.com/uzochukwueddie/chatty-backend/tree/develop/endpoints](https://github.com/uzochukwueddie/chatty-backend/tree/develop/endpoints).
+- The actual endpoints for the application can be found inside the folder named `endpoints` [https://github.com/Perosky168/chat-app-api/tree/develop/endpoints](https://github.com/Perosky168/chat-app-api/tree/develop/endpoints).
 - The endpoint files all have a `.http` extension.
 - To use this files to make api calls, install the extension called [rest client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client) on vscode.
 - Update the endpoints http files before using.
