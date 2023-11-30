@@ -1,19 +1,24 @@
 @baseUrl = http://localhost:5000
+@urlPath = api/v1
 
 ###
-GET {{baseUrl}}/health
+PUT {{baseUrl}}/{{urlPath}}/notification/62f3e40b5d2b62d32cf8a3b2
 Content-Type: application/json
 Accept: application/json
 withCredentials: true
 
+{}
+
 ###
-GET {{baseUrl}}/env
+DELETE {{baseUrl}}/{{urlPath}}/notification/62f3e40b5d2b62d32cf8a3b2
 Content-Type: application/json
 Accept: application/json
 withCredentials: true
 
+{}
+
 ###
-GET {{baseUrl}}/fibo/5
+GET {{baseUrl}}/{{urlPath}}/notifications
 Content-Type: application/json
 Accept: application/json
 withCredentials: true
